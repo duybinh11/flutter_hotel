@@ -3,11 +3,12 @@ class AppRoutes {
   static const login = "/login";
   static const signUp = "/signUp";
   static const signUpHotel = "/signUpHotel";
-  static const userHome = "/userHome";
-  // static const forgetPassword = "/forgetPassword";
-  // static const otp = "/otp";
-  // static const updatePassword = "/updatePassword";
-  // static const test = "/test";
+  static const indexuserscreen = "/indexuserscreen";
+  static const vnpagePage = "/vnpagePage";
+  static const detailHotelScreen = "/detailHotelScreen";
+  static const detailBooked = "/detailBooked";
+  static const hotelIndex = "/hotelIndex";
+  static const hotelDetailBooked = "/hotelDetailBooked";
   // static const detailPost = "/detailPost";
   // static const confirmSuggest = "/confirmSuggest";
   // static const banking = "/banking";

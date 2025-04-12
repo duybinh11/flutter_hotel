@@ -1,8 +1,11 @@
+import 'package:book_hotel/Model/ProvinceVn.dart';
 import 'package:book_hotel/core/BaseWidget/CustomDropdown.dart';
+import 'package:book_hotel/presentation/UserHomeScreen/controller/ControllerHomeUser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
-class BoxSearchHomeUser extends StatelessWidget {
+class BoxSearchHomeUser extends GetView<Controllerhomeuser> {
   const BoxSearchHomeUser({
     super.key,
   });
@@ -34,22 +37,27 @@ class BoxSearchHomeUser extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
-            CustomDropdown<String>(
-              colorText: Colors.red,
-              value: null,
-              items: ['Đà nẵng'],
-              label: 'Bạn muốn ở đâu',
-              itemLabelBuilder: (item) => item,
-              iconPrefix: const Icon(
-                Icons.place,
-                color: Colors.red,
+            Obx(
+              () => CustomDropdown<ProvinceVn>(
+                colorText: Colors.red,
+                value: null,
+                items: controller.provinces.value,
+                label: 'Bạn muốn ở đâu',
+                itemLabelBuilder: (item) => item.name,
+                iconPrefix: const Icon(
+                  Icons.place,
+                  color: Colors.red,
+                ),
+                onChanged: (newValue) {
+                  controller.selectProvince = newValue!;
+                },
               ),
-              onChanged: (newValue) {},
             ),
             SizedBox(
               height: 10.h,
             ),
             TextField(
+              controller: controller.nameHotel,
               decoration: InputDecoration(
                 prefixIcon: const Icon(
                   Icons.hotel,
@@ -72,7 +80,8 @@ class BoxSearchHomeUser extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                  onPressed: () {}, child: const Text("Tìm kiếm")),
+                  onPressed: () => controller.seacherHotel(),
+                  child: const Text("Tìm kiếm")),
             )
           ],
         ),
