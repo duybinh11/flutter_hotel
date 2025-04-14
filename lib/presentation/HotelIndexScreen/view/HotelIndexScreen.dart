@@ -26,16 +26,19 @@ class Hotelindexscreen extends GetView<Controllerhotelindex> {
                       color: Colors.white,
                     ),
                   )),
-              body: Padding(
-                padding: EdgeInsets.all(8.0.w),
-                child: ListView.builder(
-                    itemCount: controller.bookedHotels.length,
-                    itemBuilder: (context, index) => Padding(
-                          padding: EdgeInsets.only(bottom: 7.h),
-                          child: HotelBoxBooked(
-                            bookHotelModel: controller.bookedHotels[index],
-                          ),
-                        )),
+              body: RefreshIndicator(
+                onRefresh: () => controller.getAllBookedOfHotel(),
+                child: Padding(
+                  padding: EdgeInsets.all(8.0.w),
+                  child: ListView.builder(
+                      itemCount: controller.bookedHotels.length,
+                      itemBuilder: (context, index) => Padding(
+                            padding: EdgeInsets.only(bottom: 7.h),
+                            child: HotelBoxBooked(
+                              bookHotelModel: controller.bookedHotels[index],
+                            ),
+                          )),
+                ),
               ),
             ),
     );
@@ -49,7 +52,8 @@ class HotelBoxBooked extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.toNamed(AppRoutes.hotelDetailBooked),
+      onTap: () =>
+          Get.toNamed(AppRoutes.hotelDetailBooked, arguments: bookHotelModel),
       child: SizedBox(
         height: 130,
         child: Row(
@@ -85,9 +89,11 @@ class HotelBoxBooked extends StatelessWidget {
                       SizedBox(
                         width: 7.w,
                       ),
-                      Text(
-                        "Vku, Ngu Hanh Son, Hoa Quy, Da Nang",
-                        style: TextStyle(color: Colors.grey, fontSize: 11.sp),
+                      Expanded(
+                        child: Text(
+                          "${bookHotelModel.hotel!.address!.detailPlace} ,${bookHotelModel.hotel!.address!.town} ,${bookHotelModel.hotel!.address!.district} ,${bookHotelModel.hotel!.address!.province}",
+                          style: TextStyle(color: Colors.grey, fontSize: 11.sp),
+                        ),
                       )
                     ],
                   ),
@@ -107,7 +113,7 @@ class HotelBoxBooked extends StatelessWidget {
                               TextStyle(fontSize: 13.sp, color: Colors.white),
                         ),
                       ),
-                      Text("2.000.000 VND",
+                      Text("${bookHotelModel.totalPrice}k",
                           style: TextStyle(
                               fontSize: 13.sp, fontWeight: FontWeight.w500))
                     ],

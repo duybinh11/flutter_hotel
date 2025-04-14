@@ -17,8 +17,10 @@ class Repositoryauth {
       required Function(String? message) error}) async {
     try {
       print(user.toJson());
+      removeData();
       Response response = await dio.post(BaseUrl.login, data: user.toJson());
       if (response.statusCode == 200) {
+        print("sd");
         saveData(response.data);
         success(response.data);
       }
@@ -37,5 +39,10 @@ class Repositoryauth {
     sharedPreferences.setInt(UtilConst.idUser, idUser);
     sharedPreferences.setString(UtilConst.token, token);
     sharedPreferences.setString(UtilConst.refreshToken, refreshToken);
+  }
+
+  void removeData() {
+    sharedPreferences.remove(UtilConst.token);
+    sharedPreferences.remove(UtilConst.refreshToken);
   }
 }

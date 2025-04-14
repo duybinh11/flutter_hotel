@@ -3,6 +3,7 @@ import 'package:book_hotel/presentation/DetailBookedScreen/binding/DetailBookedB
 import 'package:book_hotel/presentation/DetailBookedScreen/view/DetailBookedScreen.dart';
 import 'package:book_hotel/presentation/DetailHotelScreen/binding/DetailHotelBinding.dart';
 import 'package:book_hotel/presentation/DetailHotelScreen/view/DetailHotelScreen.dart';
+import 'package:book_hotel/presentation/HotelDetailBookedScreen/binding/BindingHotelDetailBooked.dart';
 import 'package:book_hotel/presentation/HotelDetailBookedScreen/view/HotelDetailBooked.dart';
 import 'package:book_hotel/presentation/HotelIndexScreen/binding/HotelIndexBinding.dart';
 import 'package:book_hotel/presentation/HotelIndexScreen/view/HotelIndexScreen.dart';
@@ -54,9 +55,8 @@ class AppPages {
         page: () => const Hotelindexscreen(),
         binding: Hotelindexbinding()),
     GetPage(
-      name: AppRoutes.hotelDetailBooked,
-      page: () => const HotelDetailBooked(),
-      // binding: Detailbookedbinding()
-    ),
+        name: AppRoutes.hotelDetailBooked,
+        page: () => const HotelDetailBooked(),
+        binding: Bindinghoteldetailbooked()),
   ];
 }

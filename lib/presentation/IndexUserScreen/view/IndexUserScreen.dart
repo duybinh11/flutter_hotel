@@ -2,7 +2,6 @@ import 'package:book_hotel/presentation/UserBookedScreen/view/UserBookedScreen.d
 import 'package:book_hotel/presentation/UserHomeScreen/view/UserHomeScreen.dart';
 import 'package:book_hotel/presentation/UserProfileScreen/view/UserProfileScreen..dart';
 import 'package:flutter/material.dart';
-
 class Indexuserscreen extends StatefulWidget {
   const Indexuserscreen({super.key});
 

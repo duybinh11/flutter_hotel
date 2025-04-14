@@ -31,6 +31,7 @@ class Loginscreen extends GetView<ControllerLogin> {
                     SizedBox(
                       height: 10.h,
                     ),
+                    
                     Text(
                       "Login",
                       style: TextStyle(
