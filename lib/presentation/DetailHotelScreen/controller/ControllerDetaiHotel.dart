@@ -1,9 +1,11 @@
 import 'package:book_hotel/Model/BookHotelModel.dart';
 import 'package:book_hotel/Model/HotelModel.dart';
+import 'package:book_hotel/Model/RateModel.dart';
 import 'package:book_hotel/Model/RequestBookHotelModel.dart';
 import 'package:book_hotel/core/BaseWidget/DialogCustom.dart';
 import 'package:book_hotel/core/util/UtilConst.dart';
 import 'package:book_hotel/data/repository/RepositoryDetailHotel.dart';
+import 'package:book_hotel/data/repository/RepositoryUserDetailBooked.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
@@ -14,11 +16,16 @@ class ControllerDetaiHotel extends GetxController {
   Repositorydetailhotel repositorydetailhotel =
       GetIt.I<Repositorydetailhotel>();
 
+  Repositoryuserdetailbooked repositoryuserdetailbooked =
+      GetIt.I<Repositoryuserdetailbooked>();
+
   final HotelModel hotel = Get.arguments as HotelModel;
   final totalPrice = 0.obs;
+  final isLoadingRating = false.obs;
 
   final startDate = TextEditingController();
   final endDate = TextEditingController();
+  final rates = <Ratemodel>[].obs;
 
   int count = 0;
   final format = DateFormat('dd/MM/yyyy');
@@ -33,6 +40,17 @@ class ControllerDetaiHotel extends GetxController {
     // Ví dụ: lấy dữ liệu từ prefs
     String? token = prefs.getString('token');
     print('Token: $token');
+  }
+
+  void getAllRate(BuildContext context) async {
+    isLoadingRating.value = true;
+    rates.clear();
+    await repositoryuserdetailbooked.getAllRate(
+      success: (rates1) => rates.value = rates1,
+      idHotel: hotel.id!,
+      e: () => Dialogcustom.show(context, "loi"),
+    );
+    isLoadingRating.value = false;
   }
 
   void selectDate(BuildContext context, TextEditingController value) async {

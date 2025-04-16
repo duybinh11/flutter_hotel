@@ -18,9 +18,22 @@ class Hotelindexscreen extends GetView<Controllerhotelindex> {
           ? const LoadingScreen()
           : Scaffold(
               appBar: AppBar(
-                  title: const Text("Duy Binh hotel"),
+                  actions: [
+                    Obx(
+                      () => Text(
+                        "Doanh thu : ${controller.money.value}k",
+                        style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                      ),
+                    ),
+                    IconButton(
+                        onPressed: () => controller.getDoanhThu(),
+                        icon: const Icon(
+                          Icons.refresh,
+                          color: Colors.red,
+                        ))
+                  ],
                   leading: IconButton(
-                    onPressed: () {},
+                    onPressed: () => Get.back(),
                     icon: const Icon(
                       Icons.login,
                       color: Colors.white,
@@ -75,10 +88,6 @@ class HotelBoxBooked extends StatelessWidget {
                     bookHotelModel.hotel!.username!,
                     style:
                         TextStyle(fontWeight: FontWeight.w500, fontSize: 16.sp),
-                  ),
-                  const ShowRateStart(
-                    avgRate: 4.5,
-                    size: 20,
                   ),
                   Row(
                     children: [

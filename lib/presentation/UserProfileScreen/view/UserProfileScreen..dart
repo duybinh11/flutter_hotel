@@ -1,7 +1,10 @@
+import 'package:book_hotel/presentation/HotelIndexScreen/controller/ControllerHotelIndex.dart';
+import 'package:book_hotel/presentation/UserHomeScreen/controller/ControllerHomeUser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
-class UserProfileScreen extends StatelessWidget {
+class UserProfileScreen extends GetView<Controllerhomeuser> {
   const UserProfileScreen({super.key});
 
   @override
@@ -39,16 +42,20 @@ class UserProfileScreen extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 14.sp, fontWeight: FontWeight.w400),
                         ),
-                        Text("Duy Bình",
-                            style: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.blue))
+                        Obx(
+                          () => Text(
+                              "${controller.customer.value?.user?.email}",
+                              style: TextStyle(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.blue)),
+                        )
                       ],
                     )
                   ],
                 ),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.login))
+                IconButton(
+                    onPressed: () => Get.back(), icon: const Icon(Icons.login))
               ],
             )
           ],

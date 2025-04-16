@@ -65,32 +65,6 @@ class HotelDetailBooked extends GetView<Controllerhoteldetailbooked> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  ShowRateStart(
-                                    avgRate: 4.5,
-                                    size: 23.w,
-                                  ),
-                                  SizedBox(
-                                    width: 10.w,
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 4, vertical: 2),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5.r)),
-                                      color: Colors.green,
-                                    ),
-                                    child: Text(
-                                      "4.8/5.0",
-                                      style: TextStyle(
-                                          fontSize: 14.sp, color: Colors.white),
-                                    ),
-                                  )
-                                ],
-                              ),
                               Container(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 4, vertical: 2),

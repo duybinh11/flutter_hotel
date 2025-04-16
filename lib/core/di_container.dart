@@ -44,7 +44,7 @@ Future<void> initDependencies() async {
   );
 
   sl.registerLazySingleton(
-    () => Repositorysignup(dio: sl()),
+    () => Repositorysignup(dio: sl(), sharedPreferences: sl()),
   );
 
   sl.registerLazySingleton(
@@ -56,7 +56,7 @@ Future<void> initDependencies() async {
   );
 
   sl.registerLazySingleton(
-    () => Repositoryuserdetailbooked(dio: sl()),
+    () => Repositoryuserdetailbooked(dio: sl(), sharedPreferences: sl()),
   );
 
   sl.registerLazySingleton(

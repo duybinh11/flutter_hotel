@@ -71,10 +71,6 @@ class BoxBookedHotel extends StatelessWidget {
                     style:
                         TextStyle(fontWeight: FontWeight.w500, fontSize: 16.sp),
                   ),
-                  const ShowRateStart(
-                    avgRate: 4.5,
-                    size: 20,
-                  ),
                   Row(
                     children: [
                       const Icon(

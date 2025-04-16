@@ -4,7 +4,6 @@ import 'package:book_hotel/Model/HotelModel.dart';
 import 'package:book_hotel/config/routes/appRoutes.dart';
 import 'package:book_hotel/core/BaseWidget/CacheImgCustom.dart';
 import 'package:book_hotel/core/util/UtilColors.dart';
-import 'package:book_hotel/presentation/UserHomeScreen/view/UserHomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -31,7 +30,7 @@ class BoxItemHotel extends StatelessWidget {
                   child: CacheImgCustom(url: hotel.img!)),
             ),
             const SizedBox(
-              height: 7,
+              height: 10,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6),
@@ -42,29 +41,6 @@ class BoxItemHotel extends StatelessWidget {
                     hotel.username!,
                     style:
                         TextStyle(fontWeight: FontWeight.w500, fontSize: 14.sp),
-                  ),
-                  const SizedBox(
-                    height: 2,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const ShowRateStart(
-                        avgRate: 3.5,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(3.r))),
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: const Text(
-                          "4.9/5.0",
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.w500),
-                        ),
-                      )
-                    ],
                   ),
                   const SizedBox(
                     height: 4,

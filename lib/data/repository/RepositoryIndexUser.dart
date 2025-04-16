@@ -1,4 +1,5 @@
 import 'package:book_hotel/Model/BookHotelModel.dart';
+import 'package:book_hotel/Model/CustomerModel.dart';
 import 'package:book_hotel/Model/HotelModel.dart';
 import 'package:book_hotel/Model/ProvinceVn.dart';
 import 'package:book_hotel/data/domain/EndpointCustomer.dart';
@@ -42,6 +43,15 @@ class Repositoryindexuser {
       print("Error: $e");
       return [];
     }
+  }
+
+  Future<CustomerModel?> getCustomer(int idUser) async {
+    Response response =
+        await dio.get("${Endpointcustomer.getCustomer}/$idUser");
+    if (response.statusCode == 200) {
+      return CustomerModel.fromMap(response.data);
+    }
+    return null;
   }
 
   Future<List<BookHotelModel>> getAllBookedhotel(int idUser) async {

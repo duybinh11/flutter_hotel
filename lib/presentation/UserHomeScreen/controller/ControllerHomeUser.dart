@@ -1,15 +1,20 @@
 import 'dart:convert';
 
+import 'package:book_hotel/Model/CustomerModel.dart';
 import 'package:book_hotel/Model/HotelModel.dart';
 import 'package:book_hotel/Model/ProvinceVn.dart';
+import 'package:book_hotel/core/util/UtilConst.dart';
 import 'package:book_hotel/data/repository/RepositoryIndexUser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Controllerhomeuser extends GetxController {
   Repositoryindexuser repositoryindexuser = GetIt.I<Repositoryindexuser>();
+  late final SharedPreferences prefs;
+  final customer = Rx<CustomerModel?>(null);
   final hotels = <HotelModel>[].obs;
   final isLoading = false.obs;
   final isLoadingSearch = false.obs;
@@ -21,10 +26,12 @@ class Controllerhomeuser extends GetxController {
   final pathData = 'assets/data/ProvinceData.json';
 
   @override
-  void onInit() {
+  void onInit() async {
     isLoading.value = true;
     getHotels();
+    prefs = GetIt.I<SharedPreferences>();
     getProvinces();
+    await getCustomer();
     isLoading.value = false;
     super.onInit();
   }
@@ -51,5 +58,14 @@ class Controllerhomeuser extends GetxController {
     hotels.value =
         await repositoryindexuser.searchHotel(selectProvince, nameHotel.text);
     isLoadingSearch.value = false;
+  }
+
+  Future<void> getCustomer() async {
+    int idUser = await getIdUser();
+    customer.value = await repositoryindexuser.getCustomer(idUser);
+  }
+
+  Future<int> getIdUser() async {
+    return prefs.getInt(UtilConst.idUser)!;
   }
 }

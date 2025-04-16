@@ -16,7 +16,6 @@ import 'package:book_hotel/presentation/SignUpHotel/view/SignUpHotelScreen.dart'
 import 'package:book_hotel/presentation/SignUpScreen/binding/SignUpBinding.dart';
 import 'package:book_hotel/presentation/SignUpScreen/view/SignUpScreen.dart';
 import 'package:book_hotel/presentation/UserHomeScreen/view/UserHomeScreen.dart';
-import 'package:book_hotel/presentation/VnPayScreen/view/VnpayScreen.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
 class AppPages {
@@ -37,11 +36,6 @@ class AppPages {
         name: AppRoutes.indexuserscreen,
         page: () => const Indexuserscreen(),
         binding: Indexuserbinding()),
-    GetPage(
-      name: AppRoutes.vnpagePage,
-      page: () => const VnPayPage(),
-      // binding: BindingControllerIntroduce()
-    ),
     GetPage(
         name: AppRoutes.detailHotelScreen,
         page: () => const DetailHotelScreen(),

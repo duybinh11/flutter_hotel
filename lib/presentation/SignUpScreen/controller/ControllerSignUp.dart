@@ -6,9 +6,11 @@ import 'package:book_hotel/data/repository/RepositorySignUp.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Controllersignup extends GetxController {
   Repositorysignup repositorysignup = GetIt.I<Repositorysignup>();
+
 
   final isLoading = false.obs;
 
@@ -23,6 +25,7 @@ class Controllersignup extends GetxController {
     if (check) {
       isLoading.value = true;
       final user = UserModel(email: email.text, password: pass1.text);
+
       final customer =
           CustomerModel(phone: phone.text, user: user, username: username.text);
       await repositorysignup.signUp(
@@ -57,4 +60,6 @@ class Controllersignup extends GetxController {
 
     return true;
   }
+
+
 }

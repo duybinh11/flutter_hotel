@@ -20,7 +20,6 @@ class Repositoryauth {
       removeData();
       Response response = await dio.post(BaseUrl.login, data: user.toJson());
       if (response.statusCode == 200) {
-        print("sd");
         saveData(response.data);
         success(response.data);
       }

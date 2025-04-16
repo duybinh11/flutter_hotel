@@ -2,13 +2,137 @@ import 'package:book_hotel/core/BaseWidget/CacheImgCustom.dart';
 import 'package:book_hotel/core/Enum/EnumStatusBook.dart';
 import 'package:book_hotel/presentation/DetailBookedScreen/controller/ControllerDetailBooked.dart';
 import 'package:book_hotel/presentation/LoadingScreen.dart';
-import 'package:book_hotel/presentation/UserHomeScreen/view/UserHomeScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class Detailbookedscreen extends GetView<Controllerdetailbooked> {
   const Detailbookedscreen({super.key});
+
+  void showReviewBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext context) {
+        return Container(
+          height: Get.height * .4,
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+            left: 16,
+            right: 16,
+            top: 16,
+          ),
+          child: Column(
+            children: [
+              const Center(
+                child: Text(
+                  "Đánh giá khách sạn",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(height: 16),
+              RatingBar.builder(
+                initialRating: 0,
+                minRating: 1,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: 5,
+                itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                itemBuilder: (context, _) => const Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                ),
+                onRatingUpdate: (rating) {
+                  controller.rateStar = rating;
+                },
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: controller.comment,
+                decoration: const InputDecoration(
+                  hintText: "Nhập bình luận của bạn",
+                  border: OutlineInputBorder(),
+                ),
+                maxLines: 3,
+              ),
+              const Spacer(),
+              SizedBox(
+                height: 50.h,
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => controller.clickAddRate(context),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                  ),
+                  child: const Text("Gửi đánh giá"),
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void showAllReviewsBottomSheet(
+    BuildContext context,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        final height = MediaQuery.of(context).size.height;
+
+        return Container(
+          height: height * 0.6,
+          padding: const EdgeInsets.all(16),
+          child: Obx(
+            () => controller.isLoadingRating.value
+                ? const LoadingScreen()
+                : Column(
+                    children: [
+                      const Text(
+                        "Tất cả đánh giá",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 16),
+                      Expanded(
+                        child: Obx(
+                          () => ListView.separated(
+                            itemCount: controller.rates.length,
+                            separatorBuilder: (_, __) => const Divider(),
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                isThreeLine: true,
+                                title: Text(controller
+                                    .rates[index].customer!.user!.email!),
+                                subtitle: Text(
+                                  "${controller.rates[index].comment}  ${controller.rates[index].rateStar}⭐ \n"
+                                  "${controller.rates[index].createdAt}",
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +165,6 @@ class Detailbookedscreen extends GetView<Controllerdetailbooked> {
                                     Icons.arrow_back,
                                     color: Colors.black,
                                   )),
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(
-                                    Icons.favorite,
-                                    color: Colors.white,
-                                    size: 25.w,
-                                  ))
                             ],
                           ),
                         ),
@@ -61,10 +178,22 @@ class Detailbookedscreen extends GetView<Controllerdetailbooked> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            controller.bookedHotel.value.hotel!.username!,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 20.sp),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                controller.bookedHotel.value.hotel!.username!,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 20.sp),
+                              ),
+                              GestureDetector(
+                                  onTap: () {
+                                    controller.getAllRate(context);
+                                    showAllReviewsBottomSheet(context);
+                                  },
+                                  child: const Text("Xem đánh giá"))
+                            ],
                           ),
                           SizedBox(
                             height: 5.h,
@@ -72,32 +201,6 @@ class Detailbookedscreen extends GetView<Controllerdetailbooked> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  ShowRateStart(
-                                    avgRate: 4.5,
-                                    size: 23.w,
-                                  ),
-                                  SizedBox(
-                                    width: 10.w,
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 4, vertical: 2),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5.r)),
-                                      color: Colors.green,
-                                    ),
-                                    child: Text(
-                                      "4.8/5.0",
-                                      style: TextStyle(
-                                          fontSize: 14.sp, color: Colors.white),
-                                    ),
-                                  )
-                                ],
-                              ),
                               Container(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 4, vertical: 2),
@@ -348,6 +451,15 @@ class Detailbookedscreen extends GetView<Controllerdetailbooked> {
                                   backgroundColor: Colors.red),
                               onPressed: () => controller.clickCancell(context),
                               child: const Text("Hủy phòng")),
+                        ),
+                        Visibility(
+                          visible: controller.bookedHotel.value.statusBook ==
+                              Enumstatusbook.COMFIRMED.name,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.black),
+                              onPressed: () => showReviewBottomSheet(context),
+                              child: const Text("Đánh giá")),
                         )
                       ],
                     )

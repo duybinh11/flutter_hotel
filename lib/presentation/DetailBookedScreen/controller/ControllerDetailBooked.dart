@@ -1,4 +1,7 @@
+
 import 'package:book_hotel/Model/BookHotelModel.dart';
+import 'package:book_hotel/Model/RateModel.dart';
+import 'package:book_hotel/Model/RequestAddRate.dart';
 import 'package:book_hotel/Model/RequestBookHotelModel.dart';
 import 'package:book_hotel/core/BaseWidget/DialogCustom.dart';
 import 'package:book_hotel/core/Enum/EnumStatusBook.dart';
@@ -13,11 +16,19 @@ class Controllerdetailbooked extends GetxController {
       GetIt.I<Repositoryuserdetailbooked>();
 
   final bookedHotel = (Get.arguments as BookHotelModel).obs;
+  final rates = <Ratemodel>[].obs;
   final format = DateFormat('dd/MM/yyyy');
   final count = TextEditingController();
+  final comment = TextEditingController();
   final isLoading = false.obs;
+  final isRateStar = false.obs;
+  final isLoadingRating = false.obs;
+
+  
 
   int c = 0;
+
+  double rateStar = 0;
 
   final totalMoney = 0.obs;
 
@@ -28,6 +39,31 @@ class Controllerdetailbooked extends GetxController {
     count.text = bookedHotel.value.countRoom!.toString();
     totalMoney.value = bookedHotel.value.totalPrice!;
     super.onInit();
+  }
+
+  void getAllRate(BuildContext context) async {
+    isLoadingRating.value = true;
+    rates.clear();
+    await repositoryuserdetailbooked.getAllRate(
+      success: (rates1) => rates.value = rates1,
+      idHotel: bookedHotel.value.hotel!.id!,
+      e: () => Dialogcustom.show(context, "loi"),
+    );
+    isLoadingRating.value = false;
+  }
+
+  void clickAddRate(BuildContext context) async {
+    isLoadingRating.value = true;
+    final requestAddRate = Requestaddrate(
+        idHotel: bookedHotel.value.hotel!.id!,
+        rateStar: rateStar,
+        comment: comment.text);
+    await repositoryuserdetailbooked.addRate(
+      success: () => Dialogcustom.show(context, "Đã đánh giá"),
+      data: requestAddRate,
+      e: () => Dialogcustom.show(context, "loi"),
+    );
+    isLoadingRating.value = false;
   }
 
   void onChangeRoom(int count, BuildContext context) {
